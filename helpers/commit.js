@@ -32,6 +32,15 @@ function cbCommit(err, strout) {
   console.log(
     chalk.blue(`Commit done with message : ${chalk.yellow(`"${str}"`)}`)
   )
+  exec('git status', cbStatus)
+}
+
+function cbStatus(err, strout) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log(chalk.green(strout))
 }
 
 // npm run commit -- message
