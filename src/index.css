@@ -16,7 +16,13 @@ body {
   font-size: 1.1em;
   background: var(--bg-color);
 }
-ul, li, p, h1, h2, h3, h4 {
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+h4 {
   margin: 0;
   padding: 0;
 }
@@ -53,7 +59,8 @@ label span {
   display: block;
   margin-bottom: 6px;
 }
-input, textarea {
+input,
+textarea {
   padding: 8px 6px;
   font-size: 1em;
   color: #777;

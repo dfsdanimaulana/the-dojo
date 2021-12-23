@@ -3,12 +3,12 @@ import 'firebase/firestore'
 import 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAHgZUQvhpV-AuKDMSdPFYxV1ZHh21nFjU",
-  authDomain: "thedojosite-686bb.firebaseapp.com",
-  projectId: "thedojosite-686bb",
-  storageBucket: "thedojosite-686bb.appspot.com",
-  messagingSenderId: "515089564943",
-  appId: "1:515089564943:web:d3251777b84b6ca48daa7a"
+  apiKey: 'AIzaSyAHgZUQvhpV-AuKDMSdPFYxV1ZHh21nFjU',
+  authDomain: 'thedojosite-686bb.firebaseapp.com',
+  projectId: 'thedojosite-686bb',
+  storageBucket: 'thedojosite-686bb.appspot.com',
+  messagingSenderId: '515089564943',
+  appId: '1:515089564943:web:d3251777b84b6ca48daa7a',
 }
 
 firebase.initializeApp(firebaseConfig)
