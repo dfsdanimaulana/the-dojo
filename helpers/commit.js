@@ -30,7 +30,7 @@ function cbCommit(err, strout) {
   }
   console.log(chalk.green(strout))
   console.log(
-    chalk.blue(`Commit done with message : ${chalk.yellow(`"${str}"`)}`)
+    chalk.blue(`Commit done with message : ${chalk.yellow(`"${str}"`)}\n`)
   )
   exec('git status', cbStatus)
 }
