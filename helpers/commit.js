@@ -32,7 +32,9 @@ function cbCommit(err, strout) {
   console.log(
     chalk.blue(`Commit done with message : ${chalk.yellow(`"${str}"`)}\n`)
   )
-  exec('git status', cbStatus)
+  setTimeout(() => {
+    exec('git status', cbStatus)
+  }, 3000)
 }
 
 function cbStatus(err, strout) {
