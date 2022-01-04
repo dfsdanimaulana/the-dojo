@@ -12,7 +12,7 @@ export const useLogout = () => {
     setError(null)
     setIsPending(true)
     try {
-      // update online status to offline
+      // update online status to false
       const { uid } = user
       await db.collection('users').doc(uid).update({ online: false })
 

@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
+// context
+import { useAuthContext } from './hooks/useAuthContext'
 // styles
 import './App.css'
 
@@ -15,31 +17,35 @@ import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 
 function App() {
+  const { user , authIsReady } = useAuthContext()
+  
   return (
     <div className="App">
-      <Router>
-        <Sidebar />
-        <div className="container">
-          <Navbar />
-          <Switch>
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
-            <Route path="/create">
-              <Create />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/projects/:id">
-              <Project />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      {authIsReady && (
+        <Router>
+          {user && <Sidebar />}
+          <div className="container">
+            <Navbar />
+            <Switch>
+              <Route exact path="/">
+                {user ? <Dashboard /> : <Redirect to='/login'/> }
+              </Route>
+              <Route path="/create">
+                {user ? <Create /> : <Redirect to='/login'/> }
+              </Route>
+              <Route path="/projects/:id">
+                {user ? <Project /> : <Redirect to='/login'/> }
+              </Route>
+              <Route path="/login">
+                {!user ? <Login /> : <Redirect to='/'/> }
+              </Route>
+              <Route path="/signup">
+                {!user ? <Signup /> : <Redirect to='/'/> }
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      )}
     </div>
   )
 }

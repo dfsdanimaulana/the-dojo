@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useAuthContext } from '../../hooks/useAuthContext'
+import { useState } from 'react'
+
+// custom hooks
 import { useLogin } from '../../hooks/useLogin'
 
 // styles
@@ -9,8 +9,6 @@ import './Login.css'
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const history = useHistory()
-  const { user } = useAuthContext()
 
   const { login, isPending, error } = useLogin()
 
@@ -18,12 +16,6 @@ export default function Login() {
     e.preventDefault()
     login(email, password)
   }
-
-  useEffect(() => {
-    if (user) {
-      history.push('/')
-    }
-  }, [user, history])
   
   return (
     <form onSubmit={handleSubmit} className="auth-form">
@@ -51,7 +43,7 @@ export default function Login() {
       {!isPending && <button className="btn">Log in</button>}
       {isPending && (
         <button className="btn" disabled>
-          loading...
+          loading
         </button>
       )}
       {error && <div className="error">{error}</div>}
