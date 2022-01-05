@@ -15,6 +15,7 @@ import Signup from './pages/signup/Signup'
 // components
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
+import Users from './components/Users'
 
 function App() {
   const { user , authIsReady } = useAuthContext()
@@ -44,6 +45,7 @@ function App() {
               </Route>
             </Switch>
           </div>
+          {user && <Users />}
         </Router>
       )}
     </div>
