@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import Select from 'react-select'
-import { useCollection } from '../../hooks/useCollection'
+import { useHistory } from 'react-router-dom'
 import { timestamp } from '../../firebase/config'
+
+// hooks
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useCollection } from '../../hooks/useCollection'
+import { useFirestore } from '../../hooks/useFirestore'
 
 // styles
 import './Create.css'
@@ -18,9 +22,11 @@ const categories = [
 export default function Create() {
   const { user } = useAuthContext()
   const { documents } = useCollection('users')
-  const [users, setUsers] = useState([])
+  const { response, addDocument } = useFirestore('projects')
+  const history = useHistory()
 
   // form filed values
+  const [users, setUsers] = useState([])
   const [name, setName] = useState('')
   const [details, setDetails] = useState('')
   const [dueDate, setDueDate] = useState('')
@@ -37,7 +43,7 @@ export default function Create() {
     }
   }, [documents])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setUsers()
     setFormError(null)
@@ -57,14 +63,14 @@ export default function Create() {
     const createdBy = {
       displayName: user.displayName,
       photoURL: user.photoURL,
-      id: user.id,
+      id: user.uid,
     }
 
     const assignedUsersList = assignedUsers.map((u) => {
       return {
         displayName: u.value.displayName,
         photoURL: u.value.photoURL,
-        id: u.value.uid,
+        id: u.value.id,
       }
     })
 
@@ -77,7 +83,11 @@ export default function Create() {
       createdBy,
       assignedUsersList,
     }
-    console.log(project)
+    await addDocument(project)
+    // redirect if success
+    if (!response.error) {
+      history.push('/')
+    }
   }
 
   return (
@@ -125,9 +135,14 @@ export default function Create() {
             isMulti
           />
         </label>
-        <button className="btn">Add Project</button>
+        {response.isPending ? (
+          <button className="btn">Adding Project...</button>
+        ) : (
+          <button className="btn">Add Project</button>
+        )}
       </form>
       {formError && <p className="error">{formError}</p>}
+      {response.error && <p className="error">{response.error}</p>}
     </div>
   )
 }
