@@ -27,3 +27,11 @@ const storage = firebase.storage()
 const timestamp = firebase.firestore.Timestamp
 
 export { db, auth, storage, timestamp }
+
+// user collection
+// - any authenticated user can read and create
+// - only user who "own/created" a document can update it (user id match)
+
+// projects collection
+// - any authenticated user can read, create and update a document
+// - only users who "own/created" a document can delete it
