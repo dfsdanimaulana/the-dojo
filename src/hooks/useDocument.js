@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import { doc, onSnapshot} from 'firebase/firestore'
 import { db } from '../firebase/config'
 
 export const useDocument = (collection, id) => {
@@ -8,8 +8,8 @@ export const useDocument = (collection, id) => {
 
   // get real time data
   useEffect(() => {
-    const ref = db.collection(collection).doc(id)
-    const unsub = ref.onSnapshot(
+    const docRef = doc(db, collection, id)
+    const unsub = onSnapshot(docRef, 
       (snapshot) => {
         // cek if data id exists
         if (snapshot.data()) {

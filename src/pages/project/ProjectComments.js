@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Avatar from '../../components/Avatar'
-import { timestamp } from '../../firebase/config'
+import { serverTimestamp } from 'firebase/firestore'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -17,7 +17,7 @@ export default function ProjectComments({ project }) {
       displayName: user.displayName,
       photoURL: user.photoURL,
       content: newComment,
-      createdAt: timestamp.fromDate(new Date()),
+      createdAt: serverTimestamp().fromDate(new Date()),
       id: Math.random(),
     }
 

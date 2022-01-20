@@ -1,7 +1,7 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
-import 'firebase/storage'
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAHgZUQvhpV-AuKDMSdPFYxV1ZHh21nFjU',
@@ -12,21 +12,19 @@ const firebaseConfig = {
   appId: '1:515089564943:web:d3251777b84b6ca48daa7a',
 }
 
-firebase.initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
 
 // init firestore
-const db = firebase.firestore()
+const db = getFirestore()
 
 // init authentication
-const auth = firebase.auth()
+const auth = getAuth()
 
 // init storage
-const storage = firebase.storage()
+const storage = getStorage()
 
-// timestamp
-const timestamp = firebase.firestore.Timestamp
 
-export { db, auth, storage, timestamp }
+export { db, auth, storage }
 
 // user collection
 // - any authenticated user can read and create

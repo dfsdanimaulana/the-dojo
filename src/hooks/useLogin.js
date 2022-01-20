@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { auth, db } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, updateDoc } from 'firebase/firestore'
 
 export const useLogin = () => {
   const [isCancelled, setIsCancelled] = useState(false)
@@ -13,11 +15,12 @@ export const useLogin = () => {
     setIsPending(true)
     try {
       // login user
-      const res = await auth.signInWithEmailAndPassword(email, password)
+      const res = await signInWithEmailAndPassword(auth, email, password)
 
       // update online status to true
       const { uid } = res.user
-      await db.collection('users').doc(uid).update({ online: true })
+      const docRef = doc(db, 'users', uid)
+      await updateDoc(docRef, { online: true })
 
       // dispatch login function
       dispatch({ type: 'LOGIN', payload: res.user })

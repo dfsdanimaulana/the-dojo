@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Select from 'react-select'
 import { useHistory } from 'react-router-dom'
-import { timestamp } from '../../firebase/config'
+import { serverTimestamp } from 'firebase/firestore'
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext'
@@ -78,7 +78,7 @@ export default function Create() {
       name,
       details,
       category,
-      dueDate: timestamp.fromDate(new Date(dueDate)),
+      dueDate: serverTimestamp().fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
       assignedUsersList,

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { auth, storage, db } from '../firebase/config'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { ref, uploadBytes } from 'firebase/storage'
+import { doc, updateDoc } from 'firebase/firestore'
 
 // custom hooks
 import { useAuthContext } from './useAuthContext'
@@ -16,7 +19,7 @@ export const useSignup = () => {
 
     try {
       // signup user
-      const res = await auth.createUserWithEmailAndPassword(email, password)
+      const res = await createUserWithEmailAndPassword(auth, email, password)
 
       // bad/invalid response
       if (!res) {
@@ -27,8 +30,11 @@ export const useSignup = () => {
 
       // create thumb image folder path
       const uploadPath = `thumbnails/${res.user.uid}/${thumb.name}`
+      
+      // image reference
+      const imgRef = ref(storage, uploadPath)
       // upload image
-      const img = await storage.ref(uploadPath).put(thumb)
+      const img = await uploadBytes(imgRef, thumb)
       // get image url
       const photoURL = await img.ref.getDownloadURL()
 
@@ -36,12 +42,13 @@ export const useSignup = () => {
       await res.user.updateProfile({ displayName, photoURL })
 
       // create user document
-      await db.collection('users').doc(res.user.uid).set({
+      const docRef = doc(db, 'users', res.user.uid)
+      await updateDoc(docRef, {
         online: true,
         displayName,
         photoURL,
       })
-
+      
       // dispatch login action
       dispatch({ type: 'LOGIN', payload: res.user })
 
